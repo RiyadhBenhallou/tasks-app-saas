@@ -120,7 +120,31 @@ export function LoginForm({
                 className="w-full"
                 disabled={isLoading.email}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                {isLoading.email ? "Logging in..." : "Login"}
+              </Button>
+            </div>
+            <hr className="mt-4" />
+            <p className="font-light text-center text-slate-500 text-xs my-2">OR:</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={(e) => handleSocialLogin(e, "github")}
+                disabled={isLoading.github}
+              >
+                {isLoading.github
+                  ? "Logging in with GitHub..."
+                  : "Login with GitHub"}
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={(e) => handleSocialLogin(e, "google")}
+                disabled={isLoading.google}
+              >
+                {isLoading.google
+                  ? "Logging in with Google..."
+                  : "Login with Google"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
@@ -133,28 +157,6 @@ export function LoginForm({
               </Link>
             </div>
           </form>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={(e) => handleSocialLogin(e, "github")}
-              disabled={isLoading.github}
-            >
-              {isLoading.github
-                ? "Logging in with GitHub..."
-                : "Login with GitHub"}
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={(e) => handleSocialLogin(e, "google")}
-              disabled={isLoading.google}
-            >
-              {isLoading.google
-                ? "Logging in with Google..."
-                : "Login with Google"}
-            </Button>
-          </div>
         </CardContent>
       </Card>
     </div>
