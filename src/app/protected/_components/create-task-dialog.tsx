@@ -17,7 +17,7 @@ export default function CreateTaskDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="text-black">
+      <DialogContent className="text-black bg-secondary">
         <DialogTitle>Create Task</DialogTitle>
         <DialogDescription>Enter you task info</DialogDescription>
         <CreateTaskForm />

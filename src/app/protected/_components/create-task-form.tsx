@@ -75,7 +75,9 @@ export default function CreateTaskForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="">Create Task</Button>
+        <Button type="submit" className="">
+          Create Task
+        </Button>
       </form>
     </Form>
   );
