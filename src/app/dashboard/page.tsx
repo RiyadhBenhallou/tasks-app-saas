@@ -17,7 +17,7 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <div className="h-svh w-full mt-24 gap-2">
+    <div className="h-svh w-full mt-24">
       <Card className="max-w-xl bg-secondary mx-auto p-6 flex flex-col items-center gap-4">
         <CardHeader className="w-full">
           <div className="flex items-center justify-between">

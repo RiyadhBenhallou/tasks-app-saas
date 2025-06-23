@@ -1,3 +1,4 @@
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -24,8 +25,8 @@ export default function TasksList() {
       </TableHeader>
       <TableBody>
         <TableRow>
-          <TableCell className="font-medium">
-            <input type="checkbox" className="mr-2" />
+          <TableCell className="flex items-center">
+            <Checkbox className="" />
           </TableCell>
           <TableCell>Complete Project Proposal</TableCell>
           <TableCell className="text-center">
@@ -39,7 +40,9 @@ export default function TasksList() {
           <TableCell>
             <div className="flex items-center gap-2 justify-end">
               <Pen className="text-blue-500 hover:text-blue-700 w-4">Edit</Pen>
-              <Trash className="text-red-500 hover:text-red-700 w-4">Delete</Trash>
+              <Trash className="text-red-500 hover:text-red-700 w-4">
+                Delete
+              </Trash>
             </div>
           </TableCell>
         </TableRow>

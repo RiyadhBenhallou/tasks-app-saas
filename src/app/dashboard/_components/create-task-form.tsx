@@ -46,7 +46,7 @@ export default function CreateTaskForm() {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input className="bg-white" placeholder="shadcn" {...field} />
               </FormControl>
               {/* <FormDescription>
                 This is your public display name.
@@ -63,6 +63,7 @@ export default function CreateTaskForm() {
               <FormLabel>Description</FormLabel>
               <FormControl>
                 <Textarea
+                  className="bg-white"
                   rows={4}
                   placeholder="Enter a description for your task"
                   {...field}

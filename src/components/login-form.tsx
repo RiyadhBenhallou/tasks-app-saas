@@ -44,7 +44,7 @@ export function LoginForm({
       });
       if (error) throw error;
       // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
+      router.push("/dashboard");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -62,7 +62,7 @@ export function LoginForm({
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/oauth?next=/protected`,
+          redirectTo: `${window.location.origin}/auth/oauth?next=/dashboard`,
         },
       });
 
@@ -124,7 +124,9 @@ export function LoginForm({
               </Button>
             </div>
             <hr className="mt-4" />
-            <p className="font-light text-center text-slate-500 text-xs my-2">OR:</p>
+            <p className="font-light text-center text-slate-500 text-xs my-2">
+              OR:
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Button
                 variant="outline"
