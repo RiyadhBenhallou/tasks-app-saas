@@ -10,7 +10,7 @@ export default function Page() {
           <h1 className="text-lg font-bold">User Profile</h1>
         </CardHeader>
         <CardContent className="w-full">
-          <Card className="bg-secondary p-4">
+          <Card className="bg-white p-4">
             <CardHeader>
               <h1 className="font-medium text-md">User Information</h1>
             </CardHeader>
@@ -27,7 +27,7 @@ export default function Page() {
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-secondary p-4 mt-4">
+          <Card className="bg-white p-4 mt-4">
             <CardHeader>
               <h1 className="text-md font-medium">Subscription Information</h1>
             </CardHeader>
