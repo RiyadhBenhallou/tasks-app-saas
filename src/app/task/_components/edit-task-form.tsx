@@ -147,9 +147,11 @@ export function EditTaskForm() {
             </FormItem>
           )}
         />
+
         <Button type="submit">
-            <Save className="" />
-            Save Changes</Button>
+          <Save className="" />
+          Save Changes
+        </Button>
       </form>
     </Form>
   );

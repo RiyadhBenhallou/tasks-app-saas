@@ -13,7 +13,6 @@ import { Pen, Trash } from "lucide-react";
 export default function TasksList() {
   return (
     <Table className="border rounded-lg">
-      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className=""></TableHead>
