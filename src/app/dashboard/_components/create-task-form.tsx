@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,13 +14,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { createClient } from "@/lib/supabase/client";
+import { useTransition } from "react";
+import { Loader2Icon } from "lucide-react";
+import { createTaskWithAi } from "../actions";
+import { Title } from "@radix-ui/react-dialog";
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
-  description: z.string().min(10).max(200).optional(),
+  description: z.string().max(200).optional(),
 });
 
 export default function CreateTaskForm() {
+  const [isLoading, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,9 +36,27 @@ export default function CreateTaskForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    startTransition(async () => {
+      const supabase = createClient();
+      // const {
+      //   data: { session },
+      // } = await supabase.auth.getSession();
+      // const { error, data } = await supabase.functions.invoke(
+      //   "create-task-with-ai",
+      //   {
+      //     body: {
+      //       title: values.title,
+      //       description: values.description,
+      //     },
+      //     headers: {
+      //       Authorization: `Bearer ${session?.access_token}`,
+      //     },
+      //   }
+      // );
+      await createTaskWithAi(values.title, values.description);
+
+      console.log(values);
+    });
   }
 
   return (
@@ -48,9 +71,6 @@ export default function CreateTaskForm() {
               <FormControl>
                 <Input className="bg-white" placeholder="shadcn" {...field} />
               </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -69,14 +89,12 @@ export default function CreateTaskForm() {
                   {...field}
                 />
               </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="">
+        <Button type="submit" disabled={isLoading}>
+          {isLoading && <Loader2Icon className="mr-2 animate-spin" />}
           Create Task
         </Button>
       </form>
