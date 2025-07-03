@@ -19,25 +19,43 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DatePickerDemo } from "@/components/date-picker"; // Assuming this component exists and is correctly implemented
-import { Save } from "lucide-react";
+import { Loader2, Router, Save } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
-  title: z.string().min(1, "Title is required."),
-  description: z.string().min(1, "Description is required."),
-  completed: z.boolean(), // Use .default(false) for initial values
-  label: z.string().min(1, "Label is required."),
-  dueDate: z.string().min(1, "Due date is required."), // Expecting a formatted date string like "YYYY-MM-DD"
+  title: z.string().optional(),
+  description: z.string().optional(),
+  completed: z.boolean().optional(), // Use .default(false) for initial values
+  label: z.string().optional(),
+  dueDate: z.string().optional(), // Expecting a formatted date string like "YYYY-MM-DD"
 });
 
-export function EditTaskForm() {
+export function EditTaskForm({
+  task,
+}: {
+  task: {
+    id: string;
+    title: string;
+    description: string;
+    completed: string;
+    label: string;
+    dueDate: string;
+  };
+}) {
+  const queryClient = useQueryClient();
+  const [isLoading, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      completed: false,
-      label: "",
-      dueDate: "",
+      title: task.title,
+      description: task.description,
+      completed: Boolean(task.completed) as boolean,
+      label: task.label,
+      dueDate: task.dueDate,
     },
   });
 
@@ -45,6 +63,18 @@ export function EditTaskForm() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    startTransition(async () => {
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("tasks")
+        .update({ ...values })
+        .eq("id", task.id);
+      if (error) {
+        console.log(error);
+      }
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      router.back();
+    });
     // Example: toast("Task updated successfully!");
   };
 
@@ -148,8 +178,12 @@ export function EditTaskForm() {
           )}
         />
 
-        <Button type="submit">
-          <Save className="" />
+        <Button type="submit" disabled={isLoading}>
+          {!isLoading ? (
+            <Save className="" />
+          ) : (
+            <Loader2 className="animate-spin" />
+          )}
           Save Changes
         </Button>
       </form>
