@@ -30,7 +30,7 @@ const formSchema = z.object({
   description: z.string().optional(),
   completed: z.boolean().optional(), // Use .default(false) for initial values
   label: z.string().optional(),
-  dueDate: z.string().optional(), // Expecting a formatted date string like "YYYY-MM-DD"
+  due_date: z.string().optional(), // Expecting a formatted date string like "YYYY-MM-DD"
 });
 
 export function EditTaskForm({
@@ -55,7 +55,7 @@ export function EditTaskForm({
       description: task.description,
       completed: Boolean(task.completed) as boolean,
       label: task.label,
-      dueDate: task.dueDate,
+      due_date: task.dueDate,
     },
   });
 
@@ -67,7 +67,7 @@ export function EditTaskForm({
       const supabase = createClient();
       const { error } = await supabase
         .from("tasks")
-        .update({ ...values })
+        .update({ ...values, due_date: new Date(values.due_date as string) })
         .eq("id", task.id);
       if (error) {
         console.log(error);
@@ -158,7 +158,7 @@ export function EditTaskForm({
         />
         <FormField
           control={form.control}
-          name="dueDate"
+          name="due_date"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Due Date</FormLabel>

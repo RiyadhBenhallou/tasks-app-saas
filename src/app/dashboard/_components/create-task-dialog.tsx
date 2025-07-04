@@ -1,3 +1,4 @@
+"use client";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import React from "react";
+import React, { useState } from "react";
 import CreateTaskForm from "./create-task-form";
 
 export default function CreateTaskDialog({
@@ -14,13 +15,14 @@ export default function CreateTaskDialog({
 }: {
   children: React.ReactNode;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="text-black bg-secondary">
         <DialogTitle>Create Task</DialogTitle>
         <DialogDescription>Enter you task info</DialogDescription>
-        <CreateTaskForm />
+        <CreateTaskForm setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   );

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { createClient } from "@/lib/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { Pen, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -64,7 +65,9 @@ export default function TasksList() {
               </p>
             </TableCell>
             <TableCell>
-              <p className="text-center">{task.due_date}</p>
+              <p className="text-center">
+                {task.due_date ? format(task.due_date, "yyyy-MM-dd") : ""}
+              </p>
             </TableCell>
             <TableCell>
               <div className="flex items-center gap-2 justify-end">

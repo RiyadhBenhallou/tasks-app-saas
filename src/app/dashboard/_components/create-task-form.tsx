@@ -19,13 +19,19 @@ import { useTransition } from "react";
 import { Loader2Icon } from "lucide-react";
 import { createTaskWithAi } from "../actions";
 import { Title } from "@radix-ui/react-dialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
   description: z.string().max(200).optional(),
 });
 
-export default function CreateTaskForm() {
+export default function CreateTaskForm({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const queryClient = useQueryClient();
   const [isLoading, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,7 +43,6 @@ export default function CreateTaskForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const supabase = createClient();
       // const {
       //   data: { session },
       // } = await supabase.auth.getSession();
@@ -54,6 +59,8 @@ export default function CreateTaskForm() {
       //   }
       // );
       await createTaskWithAi(values.title, values.description);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      setIsOpen(false);
 
       console.log(values);
     });
