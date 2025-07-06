@@ -10,6 +10,7 @@ import TasksList from "./_components/tasks-list";
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
+  
 
   const { data, error } = await supabase.auth.getUser();
   console.log(data)
